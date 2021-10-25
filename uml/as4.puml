@@ -1,0 +1,9 @@
+@startuml
+
+class App {
+extends Application
+Start()
+Main()
+}
+
+@enduml
