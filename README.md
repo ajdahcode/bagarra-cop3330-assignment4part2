@@ -1,6 +1,7 @@
 # bagarra-cop3330-assignment4part2
 
 To use the applicaton:
+
 Click Start! to make a todo list.
 In this window you have options to make a new item, delete or clear the items, and select the item you want to look at.
 Go ahead and make a new item for your todo list and then save the todo list.
