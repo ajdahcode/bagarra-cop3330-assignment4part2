@@ -1,0 +1,9 @@
+@startuml
+
+class App {
+extends Application
+Start(Stage stage)
+Main(String[] args){Launch Application}
+}
+
+@enduml
