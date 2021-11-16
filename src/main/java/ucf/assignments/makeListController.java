@@ -41,8 +41,9 @@ public class makeListController {
 //        items.add(item.getItemName());
 //        items.add(item.getDate().toString());
 
-        items.add();
-        itemList.getItems().addAll(item);
+//        items.add();
+        items.addAll(item);
+        itemList.getItems().addAll(items);
 
 //        make 100 items in one list
 //        items = itemList.getItems();

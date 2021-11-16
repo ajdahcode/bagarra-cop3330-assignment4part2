@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -30,6 +27,7 @@ public class makeItemController {
     public TextArea descriptionOfItem;
     @FXML
     public DatePicker datePicker;
+    public Label datePickerString;
 
     private item selectedItem;
 
@@ -37,19 +35,6 @@ public class makeItemController {
 //        int maxCharacters = 5;
 //        if(tfInput.getText().length() > maxCharacters) event.consume();
 //    });
-
-    public void setDescriptionMaxChar() {
-        // Set the maximum characters to 256
-        descriptionOfItem.setTextFormatter(new TextFormatter<String>(change ->
-                change.getControlNewText().length() <= 256 ? change : null));
-    }
-
-    public void itemInformation(item item){
-        selectedItem = item;
-        nameOfItem.setText(selectedItem.getItemName());
-        descriptionOfItem.setText(selectedItem.getItemDescription());
-        datePicker.setAccessibleText(selectedItem.getDate().toString());
-    }
 
     public void saveThisItem(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/makeList.fxml"));
@@ -61,13 +46,14 @@ public class makeItemController {
         // Save information of description
         String itemDescription = descriptionOfItem.getText();
 
+        String displayItem = itemName+"\tDue: "+date;
 
         Parent root = fxmlLoader.load();
 
 
         // Send information to the other controller
         makeListController makeList = fxmlLoader.getController();
-        makeList.getItem(itemName+"\tDue: "+date);
+        makeList.getItem(displayItem);
 
 
         /* try to do if date is null return "no date" */
@@ -84,5 +70,18 @@ public class makeItemController {
         stage.show();
     }
 
+    // Set the maximum characters to 256
+    public void setDescriptionMaxChar() {
+        descriptionOfItem.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= 256 ? change : null));
+    }
+
+    // Information of item is sent over to list
+    public void itemInformation(item item){
+        selectedItem = item;
+        nameOfItem.setText(selectedItem.getItemName());
+        datePicker.setValue(selectedItem.getDate());
+        descriptionOfItem.setText(selectedItem.getItemDescription());
+    }
 
 }
