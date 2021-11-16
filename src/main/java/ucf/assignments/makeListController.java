@@ -14,12 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class makeListController {
 
@@ -29,94 +25,27 @@ public class makeListController {
     @FXML
     public ListView <item> itemList;
 
-
+    private item selectItem;
 
     ObservableList<item> items = FXCollections.observableArrayList();
 
-    @FXML
-    public void getItem(String item){
-//        items.addAll(item);
-//        itemList.setItems(items);
 
-//        items.add(item.getItemName());
-//        items.add(item.getDate().toString());
+    public void getItem(List<item> list){
+        itemList.getItems().addAll(list);
 
-//        items.add();
-        items.addAll(item);
-        itemList.getItems().addAll(items);
+        itemList.setCellFactory(param -> new ListCell<item>() {
+            @Override
+            protected void updateItem(item item, boolean empty) {
+                super.updateItem(item, empty);
 
-//        make 100 items in one list
-//        items = itemList.getItems();
-//        for(int i = 0; i < 100; i++){
-//            if(!items.contains(item)){
-//                itemList.getItems().addAll(item);
-//            }
-//        }
+                if (empty || item == null || item.getItemName() == null || item.getDate() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getItemName()+"\tDue: "+item.getDate());
+                }
+            }
+        });
 
-//        itemList.getItems().addAll(item);
-
-
-//        stringSet.add(item);
-//        items.setAll(stringSet);
-//        itemList.setItems(items);
-//        itemList.setCellFactory(new Callback<ListView<String>, ListCell<String>>()
-//        {
-//            @Override
-//            public ListCell<String> call(ListView<String> listView)
-//            {
-//                return new ListViewCell();
-//            }
-//        });
-//        items.add(item);
-//        itemList.setItems(items);
-
-
-//        addNewItem.setOnAction((actionEvent) ->
-//        {
-//            try
-//            {
-//                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/makeItem.fxml"));
-//                Stage secondStage = new Stage();
-//                secondStage.setScene(new Scene(addNewItemLoader.load()));
-//                SecondaryController addNewItemController = addNewItemLoader.getController();
-//                secondStage.showAndWait();
-//                Optional<String> result = addNewItemController.getNewItem();
-//                if (result.isPresent()){
-//                    System.out.println("Your name: " + result.get());
-//                    eventsList.add(result.get());
-//                }
-//            }
-//            catch (IOException e)
-//            {
-//                System.out.println(e.toString());
-//            }
-//        });
-
-//        itemList.getItems().add(item);
-
-//        if(itemList == null){
-//            itemList.setItems(items);
-//        }
-//        items.add(item);
-
-
-//        ArrayList <String> stringItems = new ArrayList();
-//        stringItems.add(item);
-//        for(String items: stringItems){
-//            itemList.getItems().add(items);
-//        }
-//        itemList.getItems().forEach(i->System.out.println(i));
-
-        // make 100 items in one list
-//        for(int i = 0; i < 100; i++){
-//            while(!item.equals(item)){
-//                itemList.getItems().addAll(item);
-//            }
-//
-//        }
-    }
-
-    public void makeListOfItems(){
 
     }
 
@@ -127,12 +56,6 @@ public class makeListController {
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-
-
-
-        
-//        itemList.getItems().add(getItem());
-//        getItem();
     }
 
     @FXML
@@ -154,15 +77,14 @@ public class makeListController {
     @FXML
     public void selectItem(ActionEvent actionEvent) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/makeItem.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
 
         makeItemController itemController = fxmlLoader.getController();
         itemController.itemInformation(itemList.getSelectionModel().getSelectedItem());
 
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-
 
     }
 

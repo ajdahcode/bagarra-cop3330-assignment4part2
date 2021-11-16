@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class makeItemController {
 
@@ -30,14 +32,15 @@ public class makeItemController {
     public Label datePickerString;
 
     private item selectedItem;
+    private List <item> listOfItems;
 
-//    descriptionOfItem.setOnKeyTyped(event ->{
-//        int maxCharacters = 5;
-//        if(tfInput.getText().length() > maxCharacters) event.consume();
-//    });
 
     public void saveThisItem(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/makeList.fxml"));
+
+        if(listOfItems == null){
+            listOfItems = new ArrayList<>();
+        }
 
         // Save information of item name
         String itemName = nameOfItem.getText();
@@ -46,23 +49,15 @@ public class makeItemController {
         // Save information of description
         String itemDescription = descriptionOfItem.getText();
 
-        String displayItem = itemName+"\tDue: "+date;
+        item newItem = new item(itemName, itemDescription, LocalDate.parse(date));
+        listOfItems.add(newItem);
 
         Parent root = fxmlLoader.load();
 
 
         // Send information to the other controller
         makeListController makeList = fxmlLoader.getController();
-        makeList.getItem(displayItem);
-
-
-        /* try to do if date is null return "no date" */
-//        if(date == null){
-//            makeList.makeListOfItems(itemName+"\tDue: no date");
-//        }
-//        else if (date != null){
-//            makeList.makeListOfItems(itemName+"\tDue: "+date);
-//        }
+        makeList.getItem(listOfItems);
 
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -83,5 +78,6 @@ public class makeItemController {
         datePicker.setValue(selectedItem.getDate());
         descriptionOfItem.setText(selectedItem.getItemDescription());
     }
+
 
 }
